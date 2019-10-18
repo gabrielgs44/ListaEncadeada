@@ -38,21 +38,15 @@ namespace ListaEncadeada
             Console.Write("Infomer o saldo disponível apra realizar os pagamentos: ");
             var saldo = double.Parse(Console.ReadLine());
 
-            try
-            {
-                saldo = list.RealizarPagamentos(saldo);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                Console.WriteLine("Contas que não foram pagas: ");
-                list.Imprimir(StatusPagamento.NaoPago);
-                Console.WriteLine($"Seu saldo: {saldo}");
-                Console.WriteLine($"valor total que precisa pagar: {list.CalcularTotalAPagar()}");
-            }
+            saldo = list.RealizarPagamentos(saldo);
+
+            Console.WriteLine();
+            Console.WriteLine("Contas que não foram pagas: ");
+            list.Imprimir(StatusPagamento.NaoPago);
+            Console.WriteLine($"Seu saldo: {saldo}");
+            var valorTotal = list.CalcularTotalAPagar(saldo);
+            Console.WriteLine($"valor total que precisa pagar: {valorTotal}");
         }
     }
 }
+

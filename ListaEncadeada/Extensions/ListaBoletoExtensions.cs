@@ -33,7 +33,7 @@ namespace ListaEncadeada.Extensions
                         return list;
                     }
 
-                    if(last.Next != null)
+                    if (last.Next != null)
                     {
                         last = last.Next;
                     }
@@ -98,26 +98,31 @@ namespace ListaEncadeada.Extensions
         {
             Node currNode = list.Head;
 
-            while (saldo > 0)
+            do
             {
-                currNode.Atual.RealizarPagamento(saldo);
+                saldo = currNode.Atual.RealizarPagamento(saldo);
                 currNode = currNode.Next;
-            }
+
+            } while (currNode != null);
 
             return saldo;
         }
 
-        public static double CalcularTotalAPagar(this ListaBoleto list)
+        public static double CalcularTotalAPagar(this ListaBoleto list, double saldo)
         {
             Node currNode = list.Head;
             double valorTotal = 0;
 
-            while (currNode.Next != null)
+            do
             {
-                valorTotal += currNode.Atual.Valor;
-            }
+                if (currNode.Atual.StatusPagamento == StatusPagamento.NaoPago)
+                    valorTotal = valorTotal + currNode.Atual.Valor;
 
-            return valorTotal;
+                currNode = currNode.Next;
+
+            } while (currNode != null);
+
+            return (valorTotal - saldo) < 0 ? 0 : valorTotal - saldo;
         }
     }
 }

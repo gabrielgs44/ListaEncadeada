@@ -1,5 +1,4 @@
 ﻿using ListaEncadeada.Comum.Enums;
-using ListaEncadeada.Entities.Exceptions;
 using System;
 using System.Globalization;
 using System.Text;
@@ -25,7 +24,7 @@ namespace ListaEncadeada.Entities
         {
             if(saldo < Valor)
             {
-                throw new SaldoInsuficienteException("Saldo insuficiente para realizar o pagamento!");
+                return saldo;
             }
 
             StatusPagamento = StatusPagamento.Pago;
