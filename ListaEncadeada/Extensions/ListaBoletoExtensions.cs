@@ -55,7 +55,7 @@ namespace ListaEncadeada.Extensions
             {
                 if (fIltroExibicao.HasValue)
                 {
-                    if (currNode.Atual.StatusPagamento == fIltroExibicao)
+                    if (currNode.Atual.StatusPagamento == fIltroExibicao.Value)
                     {
                         Console.WriteLine(currNode.Atual);
                     }
@@ -108,7 +108,7 @@ namespace ListaEncadeada.Extensions
             return saldo;
         }
 
-        public static double CalcularTotalAPagar(this ListaBoleto list, double saldo)
+        public static double CalcularValorQueFalta(this ListaBoleto list, double saldo)
         {
             Node currNode = list.Head;
             double valorTotal = 0;
@@ -116,7 +116,7 @@ namespace ListaEncadeada.Extensions
             do
             {
                 if (currNode.Atual.StatusPagamento == StatusPagamento.NaoPago)
-                    valorTotal = valorTotal + currNode.Atual.Valor;
+                    valorTotal += currNode.Atual.Valor;
 
                 currNode = currNode.Next;
 

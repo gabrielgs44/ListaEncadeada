@@ -35,7 +35,7 @@ namespace ListaEncadeada
             Console.Clear();
             list.Imprimir();
 
-            Console.Write("Infomer o saldo disponível apra realizar os pagamentos: ");
+            Console.Write("Infomer o saldo disponível para realizar os pagamentos: ");
             var saldo = double.Parse(Console.ReadLine());
 
             saldo = list.RealizarPagamentos(saldo);
@@ -43,9 +43,9 @@ namespace ListaEncadeada
             Console.WriteLine();
             Console.WriteLine("Contas que não foram pagas: ");
             list.Imprimir(StatusPagamento.NaoPago);
-            Console.WriteLine($"Seu saldo: {saldo}");
-            var valorTotal = list.CalcularTotalAPagar(saldo);
-            Console.WriteLine($"valor total que precisa pagar: {valorTotal}");
+            Console.WriteLine($"Seu saldo atual: {saldo}");
+            var valorQueFalta = list.CalcularValorQueFalta(saldo);
+            Console.WriteLine($"valor à acrescentar para efetuar os pagamentos: {valorQueFalta}");
         }
     }
 }
