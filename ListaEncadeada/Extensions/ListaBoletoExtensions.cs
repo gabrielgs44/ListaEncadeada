@@ -1,6 +1,5 @@
 ﻿using ListaEncadeada.Comum.Enums;
 using ListaEncadeada.Entities;
-using ListaEncadeada.Services;
 using System;
 
 namespace ListaEncadeada.Extensions
@@ -20,7 +19,7 @@ namespace ListaEncadeada.Extensions
 
                 do
                 {
-                    if (ListaBoletoService.VerificarQualEMaior(last, node))
+                    if (VerificarQualEMaior(last, node))
                     {
                         Node aux = new Node(last.Atual)
                         {
@@ -123,6 +122,24 @@ namespace ListaEncadeada.Extensions
             } while (currNode != null);
 
             return (valorTotal - saldo) < 0 ? 0 : valorTotal - saldo;
+        }
+
+        public static bool VerificarQualEMaior(Node last, Node node)
+        {
+            int diaAtual = last.Atual.DataVencimento.Day;
+            int mesAtual = last.Atual.DataVencimento.Month;
+
+            int diaNext = node.Atual.DataVencimento.Day;
+            int mesNext = node.Atual.DataVencimento.Month;
+
+            if (mesAtual >= mesNext)
+            {
+                return diaAtual > diaNext;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
