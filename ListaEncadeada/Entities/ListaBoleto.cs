@@ -1,10 +1,10 @@
 ﻿namespace ListaEncadeada.Entities
 {
-    public class ListaBoleto
+    class ListaBoleto
     {
-        public Node Head { get; set; }
+        public Boleto Head { get; set; }
 
-        private ListaBoleto()
+        protected ListaBoleto()
         {
             Head = null;
         }
@@ -12,6 +12,121 @@
         public static ListaBoleto Criar()
         {
             return new ListaBoleto();
+        }
+
+        public ListaBoleto Inserir(Boleto newNode)
+        {
+            if (Head == null)
+            {
+                Head = newNode;
+                return this;
+            }
+            else
+            {
+                var aux = Head;
+
+                if (aux.DataVencimento >= newNode.DataVencimento)
+                {
+                    newNode.Next = aux;
+                    Head = newNode;
+                    return this;
+                }
+                else
+                {
+                    while (aux.Next != null)
+                    {
+                        if (aux.Next.DataVencimento >= newNode.DataVencimento)
+                        {
+                            newNode.Next = aux.Next;
+                            aux.Next = newNode;
+                            return this;
+                        }
+
+                        aux = aux.Next;
+                    }
+
+                    aux.Next = newNode;
+                }
+
+                return this;
+            }
+        }
+
+        public void Imprimir()
+        {
+            var aux = Head;
+            while (aux != null)
+            {
+                System.Console.WriteLine(aux);
+                aux = aux.Next;
+
+            }
+        }
+
+        public ListaBoleto Remover(int codigo)
+        {
+            var aux = Head;
+            if (aux.Codigo == codigo)
+            {
+                Head = Head.Next == null ? null : Head.Next;
+                return this;
+            }
+            else
+            {
+                do
+                {
+                    var last = aux.Next;
+
+                    if (last.Codigo == codigo && last.Next == null)
+                    {
+                        aux.Next = null;
+                        return this;
+                    }
+                    else
+                    {
+                        if (last.Codigo == codigo)
+                        {
+                            aux.Next = last.Next;
+                            return this;
+                        }
+                    }
+
+                    aux = aux.Next;
+                } while (aux != null);
+
+                return this;
+            }
+        }
+
+        public double RealizarPagamentos(double saldo)
+        {
+            var aux = Head;
+
+            while (aux != null)
+            {
+                if (saldo >= aux.Valor)
+                {
+                    saldo -= aux.Valor;
+                    Remover(aux.Codigo);
+                }
+
+                aux = aux.Next;
+            }
+
+            return saldo;
+        }
+
+        public double CalcularValorTotal()
+        {
+            var aux = Head;
+            var valorTotal = 0.0;
+            while (aux != null)
+            {
+                valorTotal += aux.Valor;
+                aux = aux.Next;
+            }
+
+            return valorTotal;
         }
     }
 }

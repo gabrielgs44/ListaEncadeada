@@ -1,42 +1,30 @@
-﻿using ListaEncadeada.Comum.Enums;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Text;
 
 namespace ListaEncadeada.Entities
 {
-    public class Boleto
+    class Boleto
     {
-        public int Id { get; set; }
+        public int Codigo { get; set; }
         public double Valor { get; set; }
         public DateTime DataVencimento { get; set; }
-        public StatusPagamento StatusPagamento { get; private set; }
+        public Boleto Next { get; set; }
 
-        public Boleto(int id, double valor, DateTime dataVencimento)
+        public Boleto(int codigo, double valor, DateTime dataVencimento)
         {
-            Id = id;
+            Codigo = codigo;
             Valor = valor;
             DataVencimento = dataVencimento;
-            StatusPagamento = StatusPagamento.NaoPago;
-        }
-
-        public Double RealizarPagamento(double saldo)
-        {
-            if(saldo < Valor)
-            {
-                return saldo;
-            }
-
-            StatusPagamento = StatusPagamento.Pago;
-            return saldo - Valor;
+            Next = null;
         }
 
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine($"Codigo: {Id}");
+            sb.AppendLine($"Codigo: {Codigo}");
             sb.AppendLine($"Valor: {Valor.ToString("F2", CultureInfo.InvariantCulture)}");
-            sb.AppendLine($"Data de vencimento: {DataVencimento.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}");
+            sb.AppendLine($"Data de vencimento: {DataVencimento.ToString("dd/MM/yyyy")}");
             return sb.ToString();
         }
     }
