@@ -66,67 +66,65 @@
         public ListaBoleto Remover(int codigo)
         {
             var aux = Head;
-            if (aux.Codigo == codigo)
+            if (Head == null)
             {
-                Head = Head.Next == null ? null : Head.Next;
                 return this;
             }
             else
             {
-                do
+                if (aux.Codigo == codigo)
                 {
-                    var last = aux.Next;
+                    Head = aux.Next == null ? null : aux.Next;
+                    return this;
+                }
+                else
+                {
+                    while (aux.Next != null)
+                    {
 
-                    if (last.Codigo == codigo && last.Next == null)
-                    {
-                        aux.Next = null;
-                        return this;
-                    }
-                    else
-                    {
-                        if (last.Codigo == codigo)
+                        if (aux.Next.Codigo == codigo)
                         {
-                            aux.Next = last.Next;
+                            aux.Next = aux.Next.Next;
                             return this;
                         }
+
+                        aux = aux.Next;
+                    }
+
+                    return this;
+                }
+            }
+        }
+
+            public double RealizarPagamentos(double saldo)
+            {
+                var aux = Head;
+
+                while (aux != null)
+                {
+                    if (saldo >= aux.Valor)
+                    {
+                        saldo -= aux.Valor;
+                        Remover(aux.Codigo);
                     }
 
                     aux = aux.Next;
-                } while (aux != null);
-
-                return this;
-            }
-        }
-
-        public double RealizarPagamentos(double saldo)
-        {
-            var aux = Head;
-
-            while (aux != null)
-            {
-                if (saldo >= aux.Valor)
-                {
-                    saldo -= aux.Valor;
-                    Remover(aux.Codigo);
                 }
 
-                aux = aux.Next;
+                return saldo;
             }
 
-            return saldo;
-        }
-
-        public double CalcularValorTotal()
-        {
-            var aux = Head;
-            var valorTotal = 0.0;
-            while (aux != null)
+            public double CalcularValorTotal()
             {
-                valorTotal += aux.Valor;
-                aux = aux.Next;
-            }
+                var aux = Head;
+                var valorTotal = 0.0;
+                while (aux != null)
+                {
+                    valorTotal += aux.Valor;
+                    aux = aux.Next;
+                }
 
-            return valorTotal;
+                return valorTotal;
+            }
         }
     }
-}
