@@ -96,35 +96,35 @@
             }
         }
 
-            public double RealizarPagamentos(double saldo)
+        public double RealizarPagamentos(double saldo)
+        {
+            var aux = Head;
+
+            while (aux != null)
             {
-                var aux = Head;
-
-                while (aux != null)
+                if (saldo >= aux.Valor)
                 {
-                    if (saldo >= aux.Valor)
-                    {
-                        saldo -= aux.Valor;
-                        Remover(aux.Codigo);
-                    }
-
-                    aux = aux.Next;
+                    saldo -= aux.Valor;
+                    Remover(aux.Codigo);
                 }
 
-                return saldo;
+                aux = aux.Next;
             }
 
-            public double CalcularValorTotal()
+            return saldo;
+        }
+
+        public double CalcularValorTotal()
+        {
+            var aux = Head;
+            var valorTotal = 0.0;
+            while (aux != null)
             {
-                var aux = Head;
-                var valorTotal = 0.0;
-                while (aux != null)
-                {
-                    valorTotal += aux.Valor;
-                    aux = aux.Next;
-                }
-
-                return valorTotal;
+                valorTotal += aux.Valor;
+                aux = aux.Next;
             }
+
+            return valorTotal;
         }
     }
+}
